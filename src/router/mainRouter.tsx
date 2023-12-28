@@ -3,6 +3,7 @@ import Layout from "../block/Layout";
 import Register from "../component/Register";
 import Exam from "../pages/Exam";
 import Question from "../pages/Question";
+import Result from "../pages/Result";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -21,4 +22,8 @@ export const mainRouter = createBrowserRouter([
     path:"/exam-questions",
     element:<Question/>
   },
+  {
+    path:"/see-result",
+    element:<Result/>
+  }
 ]);

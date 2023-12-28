@@ -1,67 +1,136 @@
-import img from "../assets/bg-forvo-academy-welcome.jpeg";
+import { useState } from "react";
+import { useGetAllQuestions } from "../hooks/Hook";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import ConfirmSubmit from "./ConfirmSubmit";
+// import { answerQuestion } from "../APIs/api";
+// import { useSelector } from "react-redux";
 
 const TheQuestions = () => {
+  // const user = useSelector((state: any) => state.user);
+  const data = useGetAllQuestions();
+  const [toggle, setToggle] = useState<boolean>(false);
+
   return (
     <div className="w-full min-h-[100vh] bg-[#F8F8F8] p-[20px] flex flex-col">
-      {/* <div className="w-full h-[150px] bg-[#F7E5E9] p-3 flex items-center">
-        <div className="h-[100%] w-[300px] bg-purple-500 text-white rounded-sm  p-1 mr-[25px]">
-            You have a total of{" "}
-            <span className="capitalize font-bold">twenty minutes</span> to
-            complete the exam. Manage your time wisely to ensure that you can
-            answer all questions within the allocated time.
-          </div>
-          <div className="h-full w-[300px] bg-purple-500 text-white rounded-sm  p-1 mr-[25px]">
-            You can flag questions you are unsure about to review later. Use the
-            flagging feature to mark questions for later review.
-          </div>
-          <img className="h-full w-[400px] object-cover border" src={img}/>
-        </div> */}
       <div className="w-full mt-[20px] p-3">
-        <div className="flex w-[650px] min-h-[100px] border mb-2 p-1 shadow-md bg-white text-black">
-          <span className="mr-[7px] text-[20px]">1.</span>
-          <div>
-            <span className="text-[20px] mb-[10px] font-semibold">
-              Who is the current persident of Nigeria
-            </span>
+        {data?.map((el: any) => (
+          <div
+            className="flex w-[650px] min-h-[100px] border mb-2 p-3 shadow-sm bg-white text-black"
+            key={el._id}
+          >
             <div>
-              <input
-                type="radio"
-                name="question"
-                id=""
-                className="hover:cursor-pointer duration-500 transition-all"
-              />
-              <span className="ml-[7px] text-[16px] font-medium">Tinubu</span>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="question"
-                id=""
-                className="hover:cursor-pointer duration-500 transition-all"
-              />
-              <span className="ml-[7px] text-[16px] font-medium">Clement</span>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="question"
-                id=""
-                className="hover:cursor-pointer duration-500 transition-all"
-              />
-              <span className="ml-[7px] text-[16px] font-medium">Etim</span>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="question"
-                id=""
-                className="hover:cursor-pointer duration-500 transition-all"
-              />
-              <span className="ml-[7px] text-[16px] font-medium">Emmanuel</span>
+              <span className="text-[20px] mb-[10px] font-semibold">
+                {el.questionText}
+              </span>
+              <div>
+                <input
+                  type="radio"
+                  name={`question-${el._id}`}
+                  id={`option-a-${el._id}`}
+                  // onChange={() => handleRadioChange(el._id, "a")}
+                  className="hover:cursor-pointer duration-500 transition-all"
+                />
+                <span className="ml-[7px] text-[15px] font-medium">{el.a}</span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name={`question-${el._id}`}
+                  id={`option-b-${el._id}`}
+                  // onChange={() => handleRadioChange(el._id, "b")}
+                  className="hover:cursor-pointer duration-500 transition-all"
+                />
+                <span className="ml-[7px] text-[15px] font-medium">{el.b}</span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name={`question-${el._id}`}
+                  id={`option-c-${el._id}`}
+                  // onChange={() => handleRadioChange(el._id, "c")}
+                  className="hover:cursor-pointer duration-500 transition-all"
+                />
+                <span className="ml-[7px] text-[15px] font-medium">{el.c}</span>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name={`question-${el._id}`}
+                  id={`option-d-${el._id}`}
+                  // onChange={() => handleRadioChange(el._id, "d")}
+                  className="hover:cursor-pointer duration-500 transition-all"
+                />
+                <span className="ml-[7px] text-[15px] font-medium">{el.d}</span>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
+      <button
+        className="bg-[#800080] text-white w-[150px] h-[40px] flex justify-center items-center hover:cursor-pointer duration-500 rounded-[20px] uppercase text-[17px] transition-all"
+        onClick={()=>{
+          setToggle(true)
+        }}
+      >
+        Submit
+      </button>
+      <div
+        style={{
+          position: "fixed",
+          top: "50px",
+          right: "50px",
+          width: "200px",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <CountdownCircleTimer
+          isPlaying
+          duration={30}
+          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+          colorsTime={[600, 300, 150, 0]}
+        >
+          {({ remainingTime }) =>
+            remainingTime === 0 ? (
+              <div
+                style={{
+                  fontSize: "25px",
+                  fontWeight: "900",
+                  color: "#f30606",
+                }}
+              >
+                Time Up
+              </div>
+            ) : (
+              <div
+                style={{
+                  fontSize: "25px",
+                  fontWeight: "600",
+                  color: "black",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ fontSize: "40px", lineHeight: 1 }}>
+                  {remainingTime}
+                </div>
+                <span> {remainingTime < 2 ? "sec" : "secs"} Left</span>
+              </div>
+            )
+          }
+        </CountdownCircleTimer>
+        <div
+          style={{
+            marginTop: "10px",
+            fontSize: "20px",
+            fontWeight: "600",
+          }}
+        ></div>
+      </div>
+      {toggle && <ConfirmSubmit setToggle={setToggle} />}
     </div>
   );
 };
